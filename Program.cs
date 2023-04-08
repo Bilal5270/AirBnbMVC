@@ -1,7 +1,19 @@
+
+using System.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<AirBnbContext>(options =>
+
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AirBnbContext") ?? throw new InvalidOperationException("Connection string 'AirBnbContext' not found.")));
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 
