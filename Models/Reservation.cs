@@ -8,8 +8,9 @@
 
         public DateTime EndDate { get; set; }
 
+        public int UserId { get; set; }
         public User User { get; set; }
-
+        public int PropertyId { get; set; }
         public Property Property { get; set; }
 
         public string StartDateAsString { get => StartDate.ToShortDateString(); }

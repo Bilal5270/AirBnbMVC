@@ -21,9 +21,8 @@ namespace AirBnbMVC.Controllers
         // GET: Properties
         public async Task<IActionResult> Index()
         {
-              return _context.Properties != null ? 
-                          View(await _context.Properties.ToListAsync()) :
-                          Problem("Entity set 'AirBnbContext.Property'  is null.");
+            var airBnbContext = _context.Properties.Include(s => s.Landlord);
+            return View(await airBnbContext.ToListAsync());
         }
 
         // GET: Properties/Details/5
@@ -35,6 +34,7 @@ namespace AirBnbMVC.Controllers
             }
 
             var @property = await _context.Properties
+                .Include(s => s.Landlord)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@property == null)
             {
@@ -47,6 +47,7 @@ namespace AirBnbMVC.Controllers
         // GET: Properties/Create
         public IActionResult Create()
         {
+            ViewData["LandlordId"] = new SelectList(_context.Landlords, "Id", "Id");
             return View();
         }
 
@@ -55,7 +56,7 @@ namespace AirBnbMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Address,City,PostalCode,AmountOfRooms,PricePerNight")] Property @property)
+        public async Task<IActionResult> Create([Bind("Id,Address,City,PostalCode,AmountOfRooms,PricePerNight,LandlordId")] Property @property)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +64,7 @@ namespace AirBnbMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["LandlordId"] = new SelectList(_context.Landlords, "Id", "Id", @property.LandlordId);
             return View(@property);
         }
 
@@ -79,6 +81,7 @@ namespace AirBnbMVC.Controllers
             {
                 return NotFound();
             }
+            ViewData["LandlordId"] = new SelectList(_context.Landlords, "Id", "Id", @property.LandlordId);
             return View(@property);
         }
 
@@ -87,7 +90,7 @@ namespace AirBnbMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Address,City,PostalCode,AmountOfRooms,PricePerNight")] Property @property)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Address,City,PostalCode,AmountOfRooms,PricePerNight,LandlordId")] Property @property)
         {
             if (id != @property.Id)
             {
@@ -114,6 +117,7 @@ namespace AirBnbMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["LandlordId"] = new SelectList(_context.Landlords, "Id", "Id", @property.LandlordId);
             return View(@property);
         }
 
@@ -126,6 +130,7 @@ namespace AirBnbMVC.Controllers
             }
 
             var @property = await _context.Properties
+                .Include(s => s.Landlord)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@property == null)
             {
@@ -142,7 +147,7 @@ namespace AirBnbMVC.Controllers
         {
             if (_context.Properties == null)
             {
-                return Problem("Entity set 'AirBnbContext.Property'  is null.");
+                return Problem("Entity set 'AirBnbContext.Properties'  is null.");
             }
             var @property = await _context.Properties.FindAsync(id);
             if (@property != null)

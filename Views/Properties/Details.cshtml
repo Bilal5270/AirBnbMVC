@@ -40,9 +40,15 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.PricePerNight)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Landlord)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Landlord.FullName)
+        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-area="" asp-controller="Reservations" asp-action="Create" asp-route-id="@Model?.Id">Boek nu!</a> |
+    <a asp-action="Index">Terug</a>
 </div>
