@@ -22,36 +22,25 @@ namespace AirBnbMVC.Controllers
         // GET: Properties
         public async Task<IActionResult> Index()
         {
-            var airBnbContext = _context.Properties.Include(s => s.Landlord);
-            var properties = await airBnbContext.ToListAsync();
+            
             PropertiesViewmodel vm = new PropertiesViewmodel
             {
-                Properties = properties
+                Context = _context
             };
+            await vm.GetAllProperties();
             return View(vm);
         }
 
         // GET: Properties/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Properties == null)
-            {
-                return NotFound();
-            }
-
-            var property = await _context.Properties
-                .Include(s => s.Landlord)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (property == null)
-            {
-                return NotFound();
-            }
-
+           
             PropertiesViewmodel vm = new PropertiesViewmodel
             {
-                Property = property
+                Context = _context
             };
 
+            await vm.GetDetails(id);
             return View(null, vm);
         }
 
