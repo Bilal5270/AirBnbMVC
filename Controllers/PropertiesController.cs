@@ -43,6 +43,15 @@ namespace AirBnbMVC.Controllers
             await vm.GetDetails(id);
             return View(null, vm);
         }
-
+        public async Task<IActionResult> FilterProperties(string city, int? minPrice, int? maxPrice, int? minRooms)
+        {
+          
+            var viewModel = new PropertiesViewmodel
+            {
+               Context = _context
+            };
+            await viewModel.Filtering(city, minPrice, maxPrice, minRooms);
+            return View("Index", viewModel);
+        }
     }
 }

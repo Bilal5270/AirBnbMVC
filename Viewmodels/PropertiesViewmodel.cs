@@ -38,5 +38,33 @@ namespace AirBnbMVC.Viewmodels
             Properties = properties;
         }
 
+        public async Task Filtering(string city, int? minPrice, int? maxPrice, int? minRooms)
+        {
+            var list = Context.Properties.Include(p => p.Landlord).AsQueryable();
+
+            if (!string.IsNullOrEmpty(city))
+            {
+                list = list.Where(p => p.City.Contains(city));
+            }
+
+            if (minPrice.HasValue)
+            {
+                list = list.Where(p => p.PricePerNight >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                list = list.Where(p => p.PricePerNight <= maxPrice.Value);
+            }
+
+            if (minRooms.HasValue)
+            {
+                list = list.Where(p => p.AmountOfRooms >= minRooms.Value);
+            }
+
+            var properties = await list.ToListAsync();
+
+            Properties = properties;
+        }
     }
 }

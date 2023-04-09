@@ -22,21 +22,7 @@ namespace AirBnbMVC.Controllers
 
         public async Task<IActionResult> Details(int? id, ReservationsViewmodel viewModel)
         {
-            //if (id == null || _context.Reservations == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var reservation = await _context.Reservations
-            //    .Include(r => r.Property)
-            //    .ThenInclude(p => p.Landlord)
-            //    .Include(r => r.User)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (reservation == null)
-            //{
-            //    return NotFound();
-            //}
-            //var property = reservation.Property;
+            
             ReservationsViewmodel vm = new ReservationsViewmodel
             {
                 Context = _context,
