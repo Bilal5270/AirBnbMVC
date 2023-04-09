@@ -20,13 +20,6 @@ namespace AirBnbMVC.Controllers
             _context = context;
         }
 
-        // GET: Reservations
-        public async Task<IActionResult> Index()
-        {
-            var airBnbContext = _context.Reservations.Include(r => r.Property).Include(r => r.User);
-            return View(await airBnbContext.ToListAsync());
-        }
-
         // GET: Reservations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -57,8 +50,6 @@ namespace AirBnbMVC.Controllers
         [Route("Create/{propertyId}")]
         public IActionResult Create([FromRoute] int propertyId)
         {
-
-            
             var property = _context.Properties.FirstOrDefault(p => p.Id == propertyId);
             
             var vm = new ReservationsViewmodel
@@ -101,17 +92,7 @@ namespace AirBnbMVC.Controllers
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Details), new { id = reservation.Id });
-            
-
-            
-            
         }
 
-        
-
-        private bool ReservationExists(int id)
-        {
-          return (_context.Reservations?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
     }
 }

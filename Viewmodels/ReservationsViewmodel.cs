@@ -27,6 +27,10 @@ namespace AirBnbMVC.Viewmodels
         {
             get
             {
+                if (Reservation == null || Property == null)
+                {
+                    return 0;
+                }
                 var totalNights = (Reservation.EndDate - Reservation.StartDate).Days;
                 var nightlyRate = Property.PricePerNight;
                 var subtotal = totalNights * nightlyRate;
