@@ -1,59 +1,52 @@
-﻿@model IEnumerable<AirBnbMVC.Models.Property>
+﻿@model AirBnbMVC.Viewmodels.PropertiesViewmodel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Alle Locaties!</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostalCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AmountOfRooms)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PricePerNight)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostalCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AmountOfRooms)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PricePerNight)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<form method="get" asp-controller="Properties" asp-action="FilterProperties">
+    <div class="form-group row">
+        <div class="col-md-3">
+            <label for="city">Stad:</label>
+            <input type="text" class="form-control" id="city" name="city">
+        </div>
+        <div class="col-md-3">
+            <label for="minPrice">Min. Prijs:</label>
+            <input type="number" class="form-control" id="minPrice" name="minPrice">
+        </div>
+        <div class="col-md-3">
+            <label for="maxPrice">Max. Prijs:</label>
+            <input type="number" class="form-control" id="maxPrice" name="maxPrice">
+        </div>
+        <div class="col-md-3">
+            <label for="minRooms">Min. Kamers:</label>
+            <input type="number" class="form-control" id="minRooms" name="minRooms">
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+</form>
+
+<div class="row">
+    @foreach (var item in Model.Properties)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Address)</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.City)</h6>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.PostalCode)</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Aantal kamers: @Html.DisplayFor(modelItem => item.AmountOfRooms)</li>
+                        <li class="list-group-item">Prijs per nacht: €@Html.DisplayFor(modelItem => item.PricePerNight)</li>
+                        <li class="list-group-item">Eigenaar: @Html.DisplayFor(modelItem => item.Landlord.FullName)</li>
+                    </ul>
+                    <a href="@Url.Action("Details", "Properties", new { id = item.Id })" class="btn btn-primary mt-3">Bekijk details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
