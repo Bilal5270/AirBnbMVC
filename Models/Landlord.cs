@@ -1,4 +1,6 @@
-﻿namespace AirBnbMVC.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AirBnbMVC.Models
 {
     public class Landlord
     {
@@ -8,6 +10,7 @@
 
         public string LastName { get; set; }
 
+        [Display(Name ="Naam verhuurder")]
         public string FullName
         {
             get

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AirBnbMVC.Models;
+using AirBnbMVC.Viewmodels;
 
 namespace AirBnbMVC.Controllers
 {
@@ -22,7 +23,12 @@ namespace AirBnbMVC.Controllers
         public async Task<IActionResult> Index()
         {
             var airBnbContext = _context.Properties.Include(s => s.Landlord);
-            return View(await airBnbContext.ToListAsync());
+            var properties = await airBnbContext.ToListAsync();
+            PropertiesViewmodel vm = new PropertiesViewmodel
+            {
+                Properties = properties
+            };
+            return View(vm);
         }
 
         // GET: Properties/Details/5
@@ -33,15 +39,20 @@ namespace AirBnbMVC.Controllers
                 return NotFound();
             }
 
-            var @property = await _context.Properties
+            var property = await _context.Properties
                 .Include(s => s.Landlord)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@property == null)
+            if (property == null)
             {
                 return NotFound();
             }
 
-            return View(@property);
+            PropertiesViewmodel vm = new PropertiesViewmodel
+            {
+                Property = property
+            };
+
+            return View(null, vm);
         }
 
         // GET: Properties/Create
@@ -82,6 +93,7 @@ namespace AirBnbMVC.Controllers
                 return NotFound();
             }
             ViewData["LandlordId"] = new SelectList(_context.Landlords, "Id", "Id", @property.LandlordId);
+
             return View(@property);
         }
 

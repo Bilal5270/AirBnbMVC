@@ -1,38 +1,38 @@
-﻿@model IEnumerable<AirBnbMVC.Models.Property>
+﻿@model AirBnbMVC.Viewmodels.PropertiesViewmodel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Alle huizen</h1>
+<h1>Alle Locaties! </h1>
 
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                @Html.DisplayNameFor(model => model.Property.Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.City)
+                @Html.DisplayNameFor(model => model.Property.City)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PostalCode)
+                @Html.DisplayNameFor(model => model.Property.PostalCode)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AmountOfRooms)
+                @Html.DisplayNameFor(model => model.Property.AmountOfRooms)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PricePerNight)
+                @Html.DisplayNameFor(model => model.Property.PricePerNight)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Landlord)
+                @Html.DisplayNameFor(model => model.Property.Landlord)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Properties) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Address)

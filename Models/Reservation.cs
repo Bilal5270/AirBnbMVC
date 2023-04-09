@@ -12,6 +12,7 @@ namespace AirBnbMVC.Models
         public DateTime EndDate { get; set; }
 
         public int UserId { get; set; }
+        [Display(Name = "Naam klant")]
         public User User { get; set; }
         public int PropertyId { get; set; }
         [Display(Name = "Locatie")]

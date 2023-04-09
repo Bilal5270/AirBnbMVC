@@ -20,5 +20,19 @@ namespace AirBnbMVC.Viewmodels
         public int PropertyId { get; set; }
         [Display(Name = "Locatie")]
         public Property Property { get; set; }
+        public Reservation Reservation { get; set; }
+
+        [Display(Name = "Je totale prijs is")]
+        public int TotalPrice
+        {
+            get
+            {
+                var totalNights = (Reservation.EndDate - Reservation.StartDate).Days;
+                var nightlyRate = Property.PricePerNight;
+                var subtotal = totalNights * nightlyRate;
+                return subtotal;
+            }
+        }
+
     }
 }

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AirBnbMVC.Models;
+using AirBnbMVC.Viewmodels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AirBnbMVC.Controllers
 {
@@ -35,135 +37,77 @@ namespace AirBnbMVC.Controllers
 
             var reservation = await _context.Reservations
                 .Include(r => r.Property)
+                .ThenInclude(p => p.Landlord)
                 .Include(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {
                 return NotFound();
             }
-
-            return View(reservation);
+            var property = reservation.Property;
+            ReservationsViewmodel vm = new ReservationsViewmodel
+            {
+                Reservation = reservation,
+                Property = property
+            };
+            return View(vm);
         }
 
         // GET: Reservations/Create
-        public IActionResult Create()
+        [Route("Create/{propertyId}")]
+        public IActionResult Create([FromRoute] int propertyId)
         {
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+
+            
+            var property = _context.Properties.FirstOrDefault(p => p.Id == propertyId);
+            
+            var vm = new ReservationsViewmodel
+            {
+                Property = property
+            };
+             
+            return View(vm);
         }
 
         // POST: Reservations/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StartDate,EndDate,UserId,PropertyId")] Reservation reservation)
+        [Route("Create/{propertyId}")]
+        public async Task<IActionResult> Create(ReservationsViewmodel viewModel)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(reservation);
+           
+                // Create a new User instance with the data from the UserViewModel
+                var newUser = new User
+                {
+                    FirstName = viewModel.FirstName,
+                    LastName = viewModel.LastName
+                };
+
+                // Add the new user to the database
+                _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id", reservation.PropertyId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", reservation.UserId);
-            return View(reservation);
-        }
 
-        // GET: Reservations/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Reservations == null)
-            {
-                return NotFound();
-            }
-
-            var reservation = await _context.Reservations.FindAsync(id);
-            if (reservation == null)
-            {
-                return NotFound();
-            }
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id", reservation.PropertyId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", reservation.UserId);
-            return View(reservation);
-        }
-
-        // POST: Reservations/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StartDate,EndDate,UserId,PropertyId")] Reservation reservation)
-        {
-            if (id != reservation.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                // Use the new user's Id to create the Reservation instance
+                var reservation = new Reservation
                 {
-                    _context.Update(reservation);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ReservationExists(reservation.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["PropertyId"] = new SelectList(_context.Properties, "Id", "Id", reservation.PropertyId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", reservation.UserId);
-            return View(reservation);
-        }
+                    StartDate = viewModel.StartDate,
+                    EndDate = viewModel.EndDate,
+                    UserId = newUser.Id,
+                    PropertyId = viewModel.PropertyId
+                };
 
-        // GET: Reservations/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Reservations == null)
-            {
-                return NotFound();
-            }
+                _context.Reservations.Add(reservation);
+                await _context.SaveChangesAsync();
 
-            var reservation = await _context.Reservations
-                .Include(r => r.Property)
-                .Include(r => r.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (reservation == null)
-            {
-                return NotFound();
-            }
-
-            return View(reservation);
-        }
-
-        // POST: Reservations/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Reservations == null)
-            {
-                return Problem("Entity set 'AirBnbContext.Reservations'  is null.");
-            }
-            var reservation = await _context.Reservations.FindAsync(id);
-            if (reservation != null)
-            {
-                _context.Reservations.Remove(reservation);
-            }
+                return RedirectToAction(nameof(Details), new { id = reservation.Id });
             
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            
+            
         }
+
+        
 
         private bool ReservationExists(int id)
         {

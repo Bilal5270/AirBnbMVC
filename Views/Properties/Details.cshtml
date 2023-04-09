@@ -1,4 +1,4 @@
-﻿@model AirBnbMVC.Models.Property
+﻿@model AirBnbMVC.Viewmodels.PropertiesViewmodel
 
 @{
     ViewData["Title"] = "Details";
@@ -11,44 +11,44 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayNameFor(model => model.Property.Address)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
+            @Html.DisplayFor(model => model.Property.Address)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
+            @Html.DisplayNameFor(model => model.Property.City)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.City)
+            @Html.DisplayFor(model => model.Property.City)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostalCode)
+            @Html.DisplayNameFor(model => model.Property.PostalCode)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostalCode)
+            @Html.DisplayFor(model => model.Property.PostalCode)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AmountOfRooms)
+            @Html.DisplayNameFor(model => model.Property.AmountOfRooms)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AmountOfRooms)
+            @Html.DisplayFor(model => model.Property.AmountOfRooms)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PricePerNight)
+            @Html.DisplayNameFor(model => model.Property.PricePerNight)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PricePerNight)
+            @Html.DisplayFor(model => model.Property.PricePerNight)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Landlord)
+            @Html.DisplayNameFor(model => model.Property.Landlord)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Landlord.FullName)
+            @Html.DisplayFor(model => model.Property.Landlord.FullName)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-area="" asp-controller="Reservations" asp-action="Create" asp-route-id="@Model?.Id">Boek nu!</a> |
+    <a asp-area="" asp-controller="Reservations" asp-action="Create" asp-route-propertyId="@Model.Property.Id">Boek nu!</a> |
     <a asp-action="Index">Terug</a>
 </div>
