@@ -4,49 +4,46 @@
     ViewData["Title"] = "Create";
 }
 
-
-
-<h4>Reserveren!</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" method="post">
-          
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Property.Id" value="@Model.Property.Id" />
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" type="date"/>
-                <span asp-validation-for="StartDate" class="text-danger"></span>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto mt-5">
+            <h2 class="text-center mb-4">Maak een reservering</h2>
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Property.Id" value="@Model.Property.Id" />
+                <div class="form-group">
+                    <label asp-for="StartDate" class="form-label">Aankomstdatum</label>
+                    <input asp-for="StartDate" class="form-control" type="date" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndDate" class="form-label">Vertrekdatum</label>
+                    <input asp-for="EndDate" class="form-control" type="date" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FirstName" class="form-label">Voornaam</label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="form-label">Achternaam</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Property.Address" class="form-label">Adres</label>
+                    <span class="form-control">@Model.Property.Address</span>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">Reserveer</button>
+                </div>
+            </form>
+            <div class="text-center mt-3">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="link-primary">Terug naar Home</a>
             </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" type="date" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Property.Address" class="control-label"></label>
-                <span class="form-control">@Model.Property.Address</span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Reserveer" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-area="" asp-controller="Home" asp-action="Index">Terug naar Home</a>
 </div>
 
 @section Scripts {

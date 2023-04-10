@@ -6,29 +6,37 @@
 
 <h1>Alle Locaties!</h1>
 
-<form method="get" asp-controller="Properties" asp-action="FilterProperties">
-    <div class="form-group row">
-        <div class="col-md-3">
-            <label for="city">Stad:</label>
-            <input type="text" class="form-control" id="city" name="city">
-        </div>
-        <div class="col-md-3">
-            <label for="minPrice">Min. Prijs:</label>
-            <input type="number" class="form-control" id="minPrice" name="minPrice">
-        </div>
-        <div class="col-md-3">
-            <label for="maxPrice">Max. Prijs:</label>
-            <input type="number" class="form-control" id="maxPrice" name="maxPrice">
-        </div>
-        <div class="col-md-3">
-            <label for="minRooms">Min. Kamers:</label>
-            <input type="number" class="form-control" id="minRooms" name="minRooms">
+<form method="get" class="form-inline" asp-controller="Properties" asp-action="FilterProperties">
+    <div class="form-group mb-2 mr-sm-2">
+        <label for="city" class="sr-only">Stad:</label>
+        <input type="text" class="form-control" id="city" name="city" placeholder="Stad">
+    </div>
+    <div class="form-group mb-2 mr-sm-2">
+        <label for="minPrice" class="sr-only">Min. Prijs:</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">€</span>
+            </div>
+            <input type="number" class="form-control" id="minPrice" name="minPrice" placeholder="Min. Prijs">
         </div>
     </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Filter</button>
+    <div class="form-group mb-2 mr-sm-2">
+        <label for="maxPrice" class="sr-only">Max. Prijs:</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">€</span>
+            </div>
+            <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="Max. Prijs">
+        </div>
     </div>
+    <div class="form-group mb-2 mr-sm-2">
+        <label for="minRooms" class="sr-only">Min. Kamers:</label>
+        <input type="number" class="form-control" id="minRooms" name="minRooms" placeholder="Min. Kamers">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Filter</button>
 </form>
+
+
 
 <div class="row">
     @foreach (var item in Model.Properties)

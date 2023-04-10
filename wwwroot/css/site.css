@@ -17,7 +17,7 @@ body {
   margin-bottom: 60px;
 }
 .hero-image {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://image.cnbcfm.com/api/v1/image/106011877-1562774879189za_120942_cape_town_beyond_000_webhero_1612_jva.jpg?v=1562774912");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("capetown.jpg");
     position: fixed;
     top: 0;
     left: 0;
