@@ -28,6 +28,7 @@ namespace AirBnbMVC.Viewmodels
         public Reservation Reservation { get; set; }
 
         [Display(Name = "Je totale prijs is")]
+
         public int TotalPrice
         {
             get
@@ -41,6 +42,12 @@ namespace AirBnbMVC.Viewmodels
                 var subtotal = totalNights * nightlyRate;
                 return subtotal;
             }
+        }
+
+        public ReservationsViewmodel()
+        {
+            StartDate = DateTime.Today;
+            EndDate = DateTime.Today;
         }
         public async Task CreateReservation(ReservationsViewmodel viewModel)
         {
